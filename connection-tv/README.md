@@ -20,9 +20,9 @@ Use `-Mute 0` to unmute and `-Mute 1` to mute. Put the action after the taskkill
 |---|---|
 | 8:15 | `-Mute 1` (safety), start PowerPoint |
 | 9:01 | kill PowerPoint, `-Mute 0`, start NDI |
-| 9:57 | kill NDI, `-Mute 1`, start PowerPoint |
+| 10:05 | kill NDI, `-Mute 1`, start PowerPoint |
 | 10:31 | kill PowerPoint, `-Mute 0`, start NDI |
-| 11:27 | kill NDI, `-Mute 1`, start PowerPoint |
+| 11:35 | kill NDI, `-Mute 1`, start PowerPoint |
 
 ## Testing
 
