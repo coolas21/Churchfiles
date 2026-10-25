@@ -29,4 +29,55 @@ Use `-Mute 0` to unmute and `-Mute 1` to mute. Put the action after the taskkill
 Run the Arguments line from a Command Prompt and watch Matrix 3 on the console. If nothing happens:
 
 - Ping the WING's IP to make sure the Dell is on the same network.
-- Check the WING firmware version. The address `/mtx/3/mute` follows the WING's OSC naming but hasn't been confirmed at the console yet.
+- Check the WING firmware version.
+
+Tested and working at the console on 2026-10-25.
+
+# Automatic shutdown
+
+A weekly task shuts the PC down after services. It shows a popup with a Cancel button first, so anyone still using the PC can keep it on.
+
+## Shutdown task
+
+Create Task (not Basic Task) with:
+
+- **Trigger:** Weekly, Sunday, at the shutdown time (for example 12:30 PM).
+- **General tab:** check "Run with highest privileges". "Run only when user is logged on" is fine, and is needed for the popup to show.
+- **Settings tab:** leave "Run task as soon as possible after a scheduled start is missed" unchecked, or the PC could shut down whenever it's turned on later in the week.
+- **Action:**
+
+Program/script:
+
+```
+powershell.exe
+```
+
+Arguments:
+
+```
+-NoProfile -WindowStyle Hidden -Command "if ((New-Object -ComObject WScript.Shell).Popup('This PC will shut down in 2 minutes. Click Cancel to keep it on.',120,'Shutdown',4097) -ne 2) { Stop-Computer -Force }"
+```
+
+The popup stays on top of other windows. Cancel keeps the PC on. OK, or no click within 2 minutes, shuts it down. Test it once with the PowerPoint slideshow running to make sure the popup shows over it.
+
+## Simpler alternative (no popup)
+
+If the popup gives trouble, use this action instead. It shows Windows' own 2-minute warning.
+
+Program/script:
+
+```
+shutdown.exe
+```
+
+Arguments:
+
+```
+/s /f /t 120 /c "Church PC shutting down in 2 minutes. Use the Cancel Shutdown shortcut to stop it."
+```
+
+To give it a cancel button, make a desktop shortcut: right-click the desktop, New > Shortcut, enter the location below, and name it "Cancel Shutdown".
+
+```
+shutdown.exe /a
+```
